@@ -35,6 +35,7 @@ struct vocab_word {
 };
 
 char train_file[MAX_STRING], output_file[MAX_STRING];
+char constituent_compound_mapping_file[MAX_STRING];
 char save_vocab_file[MAX_STRING], read_vocab_file[MAX_STRING];
 struct vocab_word *vocab;
 int binary = 0, cbow = 1, debug_mode = 2, window = 5, min_count = 5, num_threads = 12, min_reduce = 1;
@@ -48,6 +49,8 @@ clock_t start;
 int hs = 0, negative = 5;
 const int table_size = 1e8;
 int *table;
+
+int **constituent_compound_mapping;
 
 void InitUnigramTable() {
   int a, i;
@@ -565,6 +568,80 @@ void *TrainModelThread(void *id) {
   pthread_exit(NULL);
 }
 
+//First number in the array is constituent
+int compareTwoArrays(const void* arr1, const void* arr2) {
+     const int* one = (const int*) arr1;
+     const int* two = (const int*) arr2;
+     if (one[0] < two[0]) return -1;
+     if (one[0] > two[0]) return +1;
+     return 0;
+}
+
+
+void LoadConstituentCompoundMappingFromFile(char *mappingFile){
+  char word[MAX_STRING], eof = 0;
+  FILE *fin;
+  fin = fopen(mappingFile, "rb");
+  int number_of_constituents = 0;
+  int max_number_of_compounds = -1;
+  int number_of_compounds = 0;
+  
+  while (1){
+        ReadWord(word, fin, &eof);
+        if (eof){
+           if (number_of_compounds > max_number_of_compounds){
+                        max_number_of_compounds = number_of_compounds;
+           }
+           break;
+        }
+        //newline spotted
+        if (!strcmp(word, (char *)"</s>")){
+                number_of_constituents++;
+                if (number_of_compounds > max_number_of_compounds){
+                        max_number_of_compounds = number_of_compounds;
+                }
+  }
+  fclose(fin);
+    
+  printf("Total number of constituents: %d \n", number_of_constituents);
+  printf("Maximum number of compounds per constituent: %d \n", max_number_of_compounds);
+  
+  //Allocate memory 
+  constituent_compound_mapping = (int **)malloc(number_of_constituents * sizeof(int *)); 
+    for (i=0; i<r; i++) 
+         constituent_compound_mapping[i] = (int *)malloc(max_number_of_compounds * sizeof(int));
+    
+  //Store the indices of the constituents and compounds mapping
+  fin = fopen(mappingFile, "rb");
+  int i,j = 0;  
+    while (1){
+        word = ReadWordIndex(fin, &eof);
+        j++;
+        if (eof) break;
+        constituent_compound_mapping[i][j] = word
+        //New line spotted
+        if (word == 0){
+            i++;
+            j=0;
+        } 
+    }
+  fclose(fin);
+    
+  //Sort the constituent_compound_mapping 2d array
+  qsort(constituent_compound_mapping,number_of_constituents,max_number_of_compounds * sizeof(int),compareTwoArrays);
+}
+
+int findCompoundsForConstituent(int constituent){
+  //TO-DO
+  //perform binary search on the constituent_compound_mapping
+
+
+
+ return -1;
+}
+
+
+
 void TrainModel() {
   long a, b, c, d;
   FILE *fo;
@@ -574,6 +651,10 @@ void TrainModel() {
   if (read_vocab_file[0] != 0) ReadVocab(); else LearnVocabFromTrainFile();
   if (save_vocab_file[0] != 0) SaveVocab();
   if (output_file[0] == 0) return;
+  
+  //Create mapping of constituent and compound to be used in training later
+  LoadConstituentCompoundMappingFromFile(constituent_compound_mapping_file);
+  
   InitNet();
   if (negative > 0) InitUnigramTable();
   start = clock();
@@ -656,6 +737,8 @@ int main(int argc, char **argv) {
     printf("Parameters for training:\n");
     printf("\t-train <file>\n");
     printf("\t\tUse text data from <file> to train the model\n");
+    printf("\t-constituent_compound_file <file>\n");
+    printf("\t\tUse constituet compound mapping from <file> to enrich compound vectors\n");
     printf("\t-output <file>\n");
     printf("\t\tUse <file> to save the resulting word vectors / word clusters\n");
     printf("\t-size <int>\n");
@@ -698,6 +781,7 @@ int main(int argc, char **argv) {
   read_vocab_file[0] = 0;
   if ((i = ArgPos((char *)"-size", argc, argv)) > 0) layer1_size = atoi(argv[i + 1]);
   if ((i = ArgPos((char *)"-train", argc, argv)) > 0) strcpy(train_file, argv[i + 1]);
+  if ((i = ArgPos((char *)"-constituent_compound_file", argc, argv)) > 0) strcpy(constituent_compound_mapping_file, argv[i + 1]);
   if ((i = ArgPos((char *)"-save-vocab", argc, argv)) > 0) strcpy(save_vocab_file, argv[i + 1]);
   if ((i = ArgPos((char *)"-read-vocab", argc, argv)) > 0) strcpy(read_vocab_file, argv[i + 1]);
   if ((i = ArgPos((char *)"-debug", argc, argv)) > 0) debug_mode = atoi(argv[i + 1]);
