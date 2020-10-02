@@ -51,6 +51,9 @@ const int table_size = 1e8;
 int *table;
 
 int **constituent_compound_mapping;
+int number_of_constituents = 0;
+int max_number_of_compounds = -1;
+int COMPOUND_NOT_PRESENT = -100;
 
 void InitUnigramTable() {
   int a, i;
@@ -374,6 +377,25 @@ void InitNet() {
   CreateBinaryTree();
 }
 
+int cmpfunc(const void * a, const void * b) {
+  return ( *(int*)a - *(int*)b );
+}
+
+//compound_mappinng will have the first element as constituent
+//rest all are the compounds corresponding to it
+int findCompoundsForTheConstituent(int *constituent_index,int **compound_mapping){
+  int *item = bsearch(constituent_index, constituent_compound_mapping,number_of_constituents, sizeof (int) * max_number_of_compounds , cmpfunc);
+
+  if( item != NULL ) {
+      *compound_mapping = (int *)(item);
+      return 1;
+  } else {
+      //If word not part of any compound
+      return -1;
+  }
+  
+}
+
 void *TrainModelThread(void *id) {
   long long a, b, d, cw, word, last_word, sentence_length = 0, sentence_position = 0;
   long long word_count = 0, last_word_count = 0, sen[MAX_SENTENCE_LENGTH + 1];
@@ -569,6 +591,7 @@ void *TrainModelThread(void *id) {
 }
 
 //First number in the array is constituent
+//perform comparison based on the constituent
 int compareTwoArrays(const void* arr1, const void* arr2) {
      const int* one = (const int*) arr1;
      const int* two = (const int*) arr2;
@@ -582,8 +605,7 @@ void LoadConstituentCompoundMappingFromFile(char *mappingFile){
   char word[MAX_STRING], eof = 0;
   FILE *fin;
   fin = fopen(mappingFile, "rb");
-  int number_of_constituents = 0;
-  int max_number_of_compounds = -1;
+
   int number_of_compounds = 0;
   
   while (1){
@@ -617,10 +639,21 @@ void LoadConstituentCompoundMappingFromFile(char *mappingFile){
     while (1){
         word = ReadWordIndex(fin, &eof);
         j++;
-        if (eof) break;
-        constituent_compound_mapping[i][j] = word
+        if (eof) { 
+             while(j!=max_number_of_compounds-1){
+                    constituent_compound_mapping[i][j] = COMPOUND_NOT_PRESENT;
+                    j++;
+              }
+          break;
+        }
+        constituent_compound_mapping[i][j] = word;
+      
         //New line spotted
         if (word == 0){
+              while(j!=max_number_of_compounds-1){
+                    constituent_compound_mapping[i][j] = COMPOUND_NOT_PRESENT;
+                    j++;
+              }
             i++;
             j=0;
         } 
@@ -631,14 +664,7 @@ void LoadConstituentCompoundMappingFromFile(char *mappingFile){
   qsort(constituent_compound_mapping,number_of_constituents,max_number_of_compounds * sizeof(int),compareTwoArrays);
 }
 
-int findCompoundsForConstituent(int constituent){
-  //TO-DO
-  //perform binary search on the constituent_compound_mapping
 
-
-
- return -1;
-}
 
 
 
