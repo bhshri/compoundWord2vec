@@ -592,20 +592,17 @@ void *TrainModelThread(void *id) {
 
 //First number in the array is constituent
 //perform comparison based on the constituent
-int compareTwoArrays(const void* arr1, const void* arr2) {
-     const int* one = (const int*) arr1;
-     const int* two = (const int*) arr2;
-     if (one[0] < two[0]) return -1;
-     if (one[0] > two[0]) return +1;
-     return 0;
-}
+int compareTwoArrays( const void *pa, const void *pb ) {
+    const int *a = *(const int **)pa;
+    const int *b = *(const int **)pb;
 
+    return a[0] - b[0];
+}
 
 void LoadConstituentCompoundMappingFromFile(char *mappingFile){
   char word[MAX_STRING], eof = 0;
   FILE *fin;
   fin = fopen(mappingFile, "rb");
-
   int number_of_compounds = 0;
   
   while (1){
@@ -616,12 +613,15 @@ void LoadConstituentCompoundMappingFromFile(char *mappingFile){
            }
            break;
         }
+        number_of_compounds++;
         //newline spotted
         if (!strcmp(word, (char *)"</s>")){
                 number_of_constituents++;
                 if (number_of_compounds > max_number_of_compounds){
                         max_number_of_compounds = number_of_compounds;
                 }
+                number_of_compounds = 0;
+        }
   }
   fclose(fin);
     
@@ -630,42 +630,41 @@ void LoadConstituentCompoundMappingFromFile(char *mappingFile){
   
   //Allocate memory 
   constituent_compound_mapping = (int **)malloc(number_of_constituents * sizeof(int *)); 
-    for (i=0; i<r; i++) 
-         constituent_compound_mapping[i] = (int *)malloc(max_number_of_compounds * sizeof(int));
-    
+  for (int k=0; k<number_of_constituents; k++) 
+         constituent_compound_mapping[k] = (int *)malloc(max_number_of_compounds * sizeof(int));
+ 
   //Store the indices of the constituents and compounds mapping
   fin = fopen(mappingFile, "rb");
-  int i,j = 0;  
-    while (1){
-        word = ReadWordIndex(fin, &eof);
-        j++;
-        if (eof) { 
-             while(j!=max_number_of_compounds-1){
-                    constituent_compound_mapping[i][j] = COMPOUND_NOT_PRESENT;
-                    j++;
-              }
-          break;
+  eof = 0;
+  int wordIndex = -1;
+  int line_ended = 0;
+
+  for(int i=0;i<number_of_constituents;i++){
+     line_ended = 0;
+
+     for(int j=0;j<max_number_of_compounds;j++){
+     
+        if (line_ended!=1){
+		            wordIndex = ReadWordIndex(fin, &eof);
+                //New line has index 0
+       	        if (wordIndex == 0){
+                      line_ended = 1;
+                }else{
+                      constituent_compound_mapping[i][j] = wordIndex;
+                }
+
+        }else{
+               constituent_compound_mapping[i][j] = COMPOUND_NOT_PRESENT;
         }
-        constituent_compound_mapping[i][j] = word;
-      
-        //New line spotted
-        if (word == 0){
-              while(j!=max_number_of_compounds-1){
-                    constituent_compound_mapping[i][j] = COMPOUND_NOT_PRESENT;
-                    j++;
-              }
-            i++;
-            j=0;
-        } 
-    }
+     
+     }
+  }
   fclose(fin);
-    
+ 
   //Sort the constituent_compound_mapping 2d array
-  qsort(constituent_compound_mapping,number_of_constituents,max_number_of_compounds * sizeof(int),compareTwoArrays);
+  qsort(constituent_compound_mapping,number_of_constituents,sizeof(constituent_compound_mapping[0]),compareTwoArrays);
+  printf("Constituent Compound Mapping Loaded and Sorted \n");
 }
-
-
-
 
 
 void TrainModel() {
@@ -680,7 +679,7 @@ void TrainModel() {
   
   //Create mapping of constituent and compound to be used in training later
   LoadConstituentCompoundMappingFromFile(constituent_compound_mapping_file);
-  
+  return;  
   InitNet();
   if (negative > 0) InitUnigramTable();
   start = clock();
