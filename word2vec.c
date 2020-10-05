@@ -50,10 +50,13 @@ int hs = 0, negative = 5;
 const int table_size = 1e8;
 int *table;
 
+//2D array
+//first element of each 1D array is constituet rest are compounds
 int **constituent_compound_mapping;
 int number_of_constituents = 0;
 int max_number_of_compounds = -1;
 int COMPOUND_NOT_PRESENT = -100;
+double constituent_compound_replace_prob = 0.5;
 
 void InitUnigramTable() {
   int a, i;
@@ -395,6 +398,19 @@ int findCompoundsForTheConstituent(int *constituent_index,int **compound_mapping
   }
   
 }
+
+//Determines based on probability
+//how often compound should be put in context of constituent
+int useConstituentContextForCompound(){
+    int random_num = random() % 10;
+    int threshold = (constituent_compound_probability * 10) - 1;
+    if ( random_num <= threshold ){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
 
 void *TrainModelThread(void *id) {
   long long a, b, d, cw, word, last_word, sentence_length = 0, sentence_position = 0;
@@ -763,7 +779,7 @@ int main(int argc, char **argv) {
     printf("\t-train <file>\n");
     printf("\t\tUse text data from <file> to train the model\n");
     printf("\t-constituent_compound_file <file>\n");
-    printf("\t\tUse constituet compound mapping from <file> to enrich compound vectors\n");
+    printf("\t\tUse constituent compound mapping from <file> to enrich compound vectors\n");
     printf("\t-output <file>\n");
     printf("\t\tUse <file> to save the resulting word vectors / word clusters\n");
     printf("\t-size <int>\n");
@@ -777,6 +793,8 @@ int main(int argc, char **argv) {
     printf("\t\tUse Hierarchical Softmax; default is 0 (not used)\n");
     printf("\t-negative <int>\n");
     printf("\t\tNumber of negative examples; default is 5, common values are 3 - 10 (0 = not used)\n");
+    printf("\t-constituent_compound_replace_prob <int>\n");
+    printf("\t\tProbability with which compound will be placed in the context of its constituent. Default is 0.5 \n");
     printf("\t-threads <int>\n");
     printf("\t\tUse <int> threads (default 12)\n");
     printf("\t-iter <int>\n");
@@ -819,6 +837,7 @@ int main(int argc, char **argv) {
   if ((i = ArgPos((char *)"-sample", argc, argv)) > 0) sample = atof(argv[i + 1]);
   if ((i = ArgPos((char *)"-hs", argc, argv)) > 0) hs = atoi(argv[i + 1]);
   if ((i = ArgPos((char *)"-negative", argc, argv)) > 0) negative = atoi(argv[i + 1]);
+  if ((i = ArgPos((char *)"-constituent_compound_replace_prob", argc, argv)) > 0) constituent_compound_replace_prob = atoi(argv[i + 1]);
   if ((i = ArgPos((char *)"-threads", argc, argv)) > 0) num_threads = atoi(argv[i + 1]);
   if ((i = ArgPos((char *)"-iter", argc, argv)) > 0) iter = atoi(argv[i + 1]);
   if ((i = ArgPos((char *)"-min-count", argc, argv)) > 0) min_count = atoi(argv[i + 1]);
