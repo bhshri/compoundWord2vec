@@ -381,16 +381,16 @@ void InitNet() {
 }
 
 int cmpfunc(const void * a, const void * b) {
-  return ( *(int*)a - *(int*)b );
+  return ( *(int*)a - **(int**)b );
 }
 
 //compound_mappinng will have the first element as constituent
 //rest all are the compounds corresponding to it
 int findCompoundsForTheConstituent(int *constituent_index,int **compound_mapping){
-  int *item = bsearch(constituent_index, constituent_compound_mapping,number_of_constituents, sizeof (int) * max_number_of_compounds , cmpfunc);
+  int **item = bsearch(constituent_index, constituent_compound_mapping,number_of_constituents, sizeof(constituent_compound_mapping[0]) , cmpfunc);
 
   if( item != NULL ) {
-      *compound_mapping = (int *)(item);
+      *compound_mapping = item;
       return 1;
   } else {
       //If word not part of any compound
@@ -403,7 +403,7 @@ int findCompoundsForTheConstituent(int *constituent_index,int **compound_mapping
 //how often compound should be put in context of constituent
 int useConstituentContextForCompound(){
     int random_num = random() % 10;
-    int threshold = (constituent_compound_probability * 10) - 1;
+    int threshold = (constituent_compound_replace_prob * 10) - 1;
     if ( random_num <= threshold ){
         return 1;
     }else{
@@ -468,21 +468,27 @@ void *TrainModelThread(void *id) {
       continue;
     }
     word = sen[sentence_position];
-        //New code changes 
-    int *compounds_for_the_constituent;
+	  
+    //New code changes 
+    int **compounds_for_the_constituent;
     int array_length = 0;
-    int compounds_present = findCompoundsForTheConstituent(&word,&compounds_for_the_constituent);
+    int current_word = (int)word;
+    int compounds_present = findCompoundsForTheConstituent(&current_word,&compounds_for_the_constituent);
+	  
     //if the word is not a constituent of any compound word
     if (!compounds_present){
-	*compounds_for_the_constituent  = word;
 	 array_length = 1;
     }else{
-	array_length = max_number_of_compounds;
+	 array_length = max_number_of_compounds;
     }
 	  
     //Iterate through all the compounds in which constituent is present
     for (int k=0;k<array_length;k++){
-    		    word = compounds_for_the_constituent[k];
+	            if (array_length == 1){
+		    	word = current_word;
+		    }else{
+    		        word = compounds_for_the_constituent[0][k];
+		    }
                     if (word == COMPOUND_NOT_PRESENT){
 			    break;
 		    }
@@ -492,8 +498,12 @@ void *TrainModelThread(void *id) {
 	    
 		    for (c = 0; c < layer1_size; c++) neu1[c] = 0;
 		    for (c = 0; c < layer1_size; c++) neu1e[c] = 0;
-		    next_random = next_random * (unsigned long long)25214903917 + 11;
-		    b = next_random % window;
+	    
+	            if (k == 0){
+		    	next_random = next_random * (unsigned long long)25214903917 + 11;
+		    	b = next_random % window;
+		    }
+	    
 		    if (cbow) {  //train the cbow architecture
 		      // in -> hidden
 		      cw = 0;
