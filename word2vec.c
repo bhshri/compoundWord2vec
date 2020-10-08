@@ -468,131 +468,153 @@ void *TrainModelThread(void *id) {
       continue;
     }
     word = sen[sentence_position];
-    if (word == -1) continue;
-    for (c = 0; c < layer1_size; c++) neu1[c] = 0;
-    for (c = 0; c < layer1_size; c++) neu1e[c] = 0;
-    next_random = next_random * (unsigned long long)25214903917 + 11;
-    b = next_random % window;
-    if (cbow) {  //train the cbow architecture
-      // in -> hidden
-      cw = 0;
-      for (a = b; a < window * 2 + 1 - b; a++) if (a != window) {
-        c = sentence_position - window + a;
-        if (c < 0) continue;
-        if (c >= sentence_length) continue;
-        last_word = sen[c];
-        if (last_word == -1) continue;
-        for (c = 0; c < layer1_size; c++) neu1[c] += syn0[c + last_word * layer1_size];
-        cw++;
-      }
-      if (cw) {
-        for (c = 0; c < layer1_size; c++) neu1[c] /= cw;
-        if (hs) for (d = 0; d < vocab[word].codelen; d++) {
-          f = 0;
-          l2 = vocab[word].point[d] * layer1_size;
-          // Propagate hidden -> output
-          for (c = 0; c < layer1_size; c++) f += neu1[c] * syn1[c + l2];
-          if (f <= -MAX_EXP) continue;
-          else if (f >= MAX_EXP) continue;
-          else f = expTable[(int)((f + MAX_EXP) * (EXP_TABLE_SIZE / MAX_EXP / 2))];
-          // 'g' is the gradient multiplied by the learning rate
-          g = (1 - vocab[word].code[d] - f) * alpha;
-          // Propagate errors output -> hidden
-          for (c = 0; c < layer1_size; c++) neu1e[c] += g * syn1[c + l2];
-          // Learn weights hidden -> output
-          for (c = 0; c < layer1_size; c++) syn1[c + l2] += g * neu1[c];
-        }
-        // NEGATIVE SAMPLING
-        if (negative > 0) for (d = 0; d < negative + 1; d++) {
-          if (d == 0) {
-            target = word;
-            label = 1;
-          } else {
-            next_random = next_random * (unsigned long long)25214903917 + 11;
-            target = table[(next_random >> 16) % table_size];
-            if (target == 0) target = next_random % (vocab_size - 1) + 1;
-            if (target == word) continue;
-            label = 0;
-          }
-          l2 = target * layer1_size;
-          f = 0;
-          for (c = 0; c < layer1_size; c++) f += neu1[c] * syn1neg[c + l2];
-          if (f > MAX_EXP) g = (label - 1) * alpha;
-          else if (f < -MAX_EXP) g = (label - 0) * alpha;
-          else g = (label - expTable[(int)((f + MAX_EXP) * (EXP_TABLE_SIZE / MAX_EXP / 2))]) * alpha;
-          for (c = 0; c < layer1_size; c++) neu1e[c] += g * syn1neg[c + l2];
-          for (c = 0; c < layer1_size; c++) syn1neg[c + l2] += g * neu1[c];
-        }
-        // hidden -> in
-        for (a = b; a < window * 2 + 1 - b; a++) if (a != window) {
-          c = sentence_position - window + a;
-          if (c < 0) continue;
-          if (c >= sentence_length) continue;
-          last_word = sen[c];
-          if (last_word == -1) continue;
-          for (c = 0; c < layer1_size; c++) syn0[c + last_word * layer1_size] += neu1e[c];
-        }
-      }
-      // Make changes in the skipgram for the compound words
-    } else {  //train skip-gram
-      for (a = b; a < window * 2 + 1 - b; a++) if (a != window) {
-        c = sentence_position - window + a;
-        if (c < 0) continue;
-        if (c >= sentence_length) continue;
-        last_word = sen[c];
-        if (last_word == -1) continue;
-        l1 = last_word * layer1_size;
-        for (c = 0; c < layer1_size; c++) neu1e[c] = 0;
-        // HIERARCHICAL SOFTMAX
-        if (hs) for (d = 0; d < vocab[word].codelen; d++) {
-          f = 0;
-          l2 = vocab[word].point[d] * layer1_size;
-          // Propagate hidden -> output
-          for (c = 0; c < layer1_size; c++) f += syn0[c + l1] * syn1[c + l2];
-          if (f <= -MAX_EXP) continue;
-          else if (f >= MAX_EXP) continue;
-          else f = expTable[(int)((f + MAX_EXP) * (EXP_TABLE_SIZE / MAX_EXP / 2))];
-          // 'g' is the gradient multiplied by the learning rate
-          g = (1 - vocab[word].code[d] - f) * alpha;
-          // Propagate errors output -> hidden
-          for (c = 0; c < layer1_size; c++) neu1e[c] += g * syn1[c + l2];
-          // Learn weights hidden -> output
-          for (c = 0; c < layer1_size; c++) syn1[c + l2] += g * syn0[c + l1];
-        }
-        
-        // NEGATIVE SAMPLING
-        // changes to be made only for negative sampling section
-        if (negative > 0) for (d = 0; d < negative + 1; d++) {
-          //correct context word so label = 1
-          if (d == 0) {
-            target = word;
-            label = 1;
-          } else {
-            // Randomly choosing some words for negative sampling
-            // Hence label = 0 meaning they are not co occurring
-            next_random = next_random * (unsigned long long)25214903917 + 11;
-            target = table[(next_random >> 16) % table_size];
-            if (target == 0) target = next_random % (vocab_size - 1) + 1;
-            if (target == word) continue;
-            label = 0;
-          }
-          l2 = target * layer1_size;
-          f = 0;
-          //what is the multiplication about ??
-          for (c = 0; c < layer1_size; c++) f += syn0[c + l1] * syn1neg[c + l2];
-          
-          // what is MAX_EXP ???? some kind of threshold ????
-          // seems like weight update happenning here
-          if (f > MAX_EXP) g = (label - 1) * alpha;
-          else if (f < -MAX_EXP) g = (label - 0) * alpha;
-          else g = (label - expTable[(int)((f + MAX_EXP) * (EXP_TABLE_SIZE / MAX_EXP / 2))]) * alpha;
-          
-          for (c = 0; c < layer1_size; c++) neu1e[c] += g * syn1neg[c + l2];
-          for (c = 0; c < layer1_size; c++) syn1neg[c + l2] += g * syn0[c + l1];
-        }
-        // Learn weights input -> hidden
-        for (c = 0; c < layer1_size; c++) syn0[c + l1] += neu1e[c];
-      }
+        //New code changes 
+    int *compounds_for_the_constituent;
+    int array_length = 0;
+    int compounds_present = findCompoundsForTheConstituent(&word,&compounds_for_the_constituent);
+    //if the word is not a constituent of any compound word
+    if (!compounds_present){
+	*compounds_for_the_constituent  = word;
+	 array_length = 1;
+    }else{
+	array_length = max_number_of_compounds;
+    }
+	  
+    //Iterate through all the compounds in which constituent is present
+    for (int k=0;k<array_length;k++){
+    		    word = compounds_for_the_constituent[k];
+                    if (word == COMPOUND_NOT_PRESENT){
+			    break;
+		    }
+		    if (word == -1) continue;
+	            //Probability of placing compound in constituents context
+	            if (!useConstituentContextForCompound()) continue;
+	    
+		    for (c = 0; c < layer1_size; c++) neu1[c] = 0;
+		    for (c = 0; c < layer1_size; c++) neu1e[c] = 0;
+		    next_random = next_random * (unsigned long long)25214903917 + 11;
+		    b = next_random % window;
+		    if (cbow) {  //train the cbow architecture
+		      // in -> hidden
+		      cw = 0;
+		      for (a = b; a < window * 2 + 1 - b; a++) if (a != window) {
+			c = sentence_position - window + a;
+			if (c < 0) continue;
+			if (c >= sentence_length) continue;
+			last_word = sen[c];
+			if (last_word == -1) continue;
+			for (c = 0; c < layer1_size; c++) neu1[c] += syn0[c + last_word * layer1_size];
+			cw++;
+		      }
+		      if (cw) {
+			for (c = 0; c < layer1_size; c++) neu1[c] /= cw;
+			if (hs) for (d = 0; d < vocab[word].codelen; d++) {
+			  f = 0;
+			  l2 = vocab[word].point[d] * layer1_size;
+			  // Propagate hidden -> output
+			  for (c = 0; c < layer1_size; c++) f += neu1[c] * syn1[c + l2];
+			  if (f <= -MAX_EXP) continue;
+			  else if (f >= MAX_EXP) continue;
+			  else f = expTable[(int)((f + MAX_EXP) * (EXP_TABLE_SIZE / MAX_EXP / 2))];
+			  // 'g' is the gradient multiplied by the learning rate
+			  g = (1 - vocab[word].code[d] - f) * alpha;
+			  // Propagate errors output -> hidden
+			  for (c = 0; c < layer1_size; c++) neu1e[c] += g * syn1[c + l2];
+			  // Learn weights hidden -> output
+			  for (c = 0; c < layer1_size; c++) syn1[c + l2] += g * neu1[c];
+			}
+			// NEGATIVE SAMPLING
+			if (negative > 0) for (d = 0; d < negative + 1; d++) {
+			  if (d == 0) {
+			    target = word;
+			    label = 1;
+			  } else {
+			    next_random = next_random * (unsigned long long)25214903917 + 11;
+			    target = table[(next_random >> 16) % table_size];
+			    if (target == 0) target = next_random % (vocab_size - 1) + 1;
+			    if (target == word) continue;
+			    label = 0;
+			  }
+			  l2 = target * layer1_size;
+			  f = 0;
+			  for (c = 0; c < layer1_size; c++) f += neu1[c] * syn1neg[c + l2];
+			  if (f > MAX_EXP) g = (label - 1) * alpha;
+			  else if (f < -MAX_EXP) g = (label - 0) * alpha;
+			  else g = (label - expTable[(int)((f + MAX_EXP) * (EXP_TABLE_SIZE / MAX_EXP / 2))]) * alpha;
+			  for (c = 0; c < layer1_size; c++) neu1e[c] += g * syn1neg[c + l2];
+			  for (c = 0; c < layer1_size; c++) syn1neg[c + l2] += g * neu1[c];
+			}
+			// hidden -> in
+			for (a = b; a < window * 2 + 1 - b; a++) if (a != window) {
+			  c = sentence_position - window + a;
+			  if (c < 0) continue;
+			  if (c >= sentence_length) continue;
+			  last_word = sen[c];
+			  if (last_word == -1) continue;
+			  for (c = 0; c < layer1_size; c++) syn0[c + last_word * layer1_size] += neu1e[c];
+			}
+		      }
+		      // Make changes in the skipgram for the compound words
+		    } else {  //train skip-gram
+		      for (a = b; a < window * 2 + 1 - b; a++) if (a != window) {
+			c = sentence_position - window + a;
+			if (c < 0) continue;
+			if (c >= sentence_length) continue;
+			last_word = sen[c];
+			if (last_word == -1) continue;
+			l1 = last_word * layer1_size;
+			for (c = 0; c < layer1_size; c++) neu1e[c] = 0;
+			// HIERARCHICAL SOFTMAX
+			if (hs) for (d = 0; d < vocab[word].codelen; d++) {
+			  f = 0;
+			  l2 = vocab[word].point[d] * layer1_size;
+			  // Propagate hidden -> output
+			  for (c = 0; c < layer1_size; c++) f += syn0[c + l1] * syn1[c + l2];
+			  if (f <= -MAX_EXP) continue;
+			  else if (f >= MAX_EXP) continue;
+			  else f = expTable[(int)((f + MAX_EXP) * (EXP_TABLE_SIZE / MAX_EXP / 2))];
+			  // 'g' is the gradient multiplied by the learning rate
+			  g = (1 - vocab[word].code[d] - f) * alpha;
+			  // Propagate errors output -> hidden
+			  for (c = 0; c < layer1_size; c++) neu1e[c] += g * syn1[c + l2];
+			  // Learn weights hidden -> output
+			  for (c = 0; c < layer1_size; c++) syn1[c + l2] += g * syn0[c + l1];
+			}
+
+			// NEGATIVE SAMPLING
+			// changes to be made only for negative sampling section
+			if (negative > 0) for (d = 0; d < negative + 1; d++) {
+			  //correct context word so label = 1
+			  if (d == 0) {
+			    target = word;
+			    label = 1;
+			  } else {
+			    // Randomly choosing some words for negative sampling
+			    // Hence label = 0 meaning they are not co occurring
+			    next_random = next_random * (unsigned long long)25214903917 + 11;
+			    target = table[(next_random >> 16) % table_size];
+			    if (target == 0) target = next_random % (vocab_size - 1) + 1;
+			    if (target == word) continue;
+			    label = 0;
+			  }
+			  l2 = target * layer1_size;
+			  f = 0;
+			  //what is the multiplication about ??
+			  for (c = 0; c < layer1_size; c++) f += syn0[c + l1] * syn1neg[c + l2];
+
+			  // what is MAX_EXP ???? some kind of threshold ????
+			  // seems like weight update happenning here
+			  if (f > MAX_EXP) g = (label - 1) * alpha;
+			  else if (f < -MAX_EXP) g = (label - 0) * alpha;
+			  else g = (label - expTable[(int)((f + MAX_EXP) * (EXP_TABLE_SIZE / MAX_EXP / 2))]) * alpha;
+
+			  for (c = 0; c < layer1_size; c++) neu1e[c] += g * syn1neg[c + l2];
+			  for (c = 0; c < layer1_size; c++) syn1neg[c + l2] += g * syn0[c + l1];
+			}
+			// Learn weights input -> hidden
+			for (c = 0; c < layer1_size; c++) syn0[c + l1] += neu1e[c];
+		      }
+		    }
     }
     sentence_position++;
     if (sentence_position >= sentence_length) {
