@@ -391,10 +391,10 @@ int findCompoundsForTheConstituent(int *constituent_index,int **compound_mapping
 
   if( item != NULL ) {
       *compound_mapping = item;
-      return 1;
+       return 1;
   } else {
       //If word not part of any compound
-      return -1;
+      return 0;
   }
   
 }
