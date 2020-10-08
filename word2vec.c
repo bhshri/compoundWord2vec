@@ -727,7 +727,6 @@ void TrainModel() {
   
   //Create mapping of constituent and compound to be used in training later
   LoadConstituentCompoundMappingFromFile(constituent_compound_mapping_file);
-  return;  
   InitNet();
   if (negative > 0) InitUnigramTable();
   start = clock();
