@@ -53,6 +53,7 @@ int *table;
 //2D array
 //first element of each 1D array is constituet rest are compounds
 int **constituent_compound_mapping;
+int *constituent_key;
 int number_of_constituents = 0;
 int max_number_of_compounds = -1;
 int COMPOUND_NOT_PRESENT = -100;
@@ -380,25 +381,6 @@ void InitNet() {
   CreateBinaryTree();
 }
 
-int cmpfunc(const void * a, const void * b) {
-  return ( *(int*)a - **(int**)b );
-}
-
-//compound_mappinng will have the first element as constituent
-//rest all are the compounds corresponding to it
-int findCompoundsForTheConstituent(int *constituent_index,int **compound_mapping){
-  int **item = bsearch(constituent_index, constituent_compound_mapping,number_of_constituents, sizeof(constituent_compound_mapping[0]) , cmpfunc);
-
-  if( item != NULL ) {
-      *compound_mapping = item;
-       return 1;
-  } else {
-      //If word not part of any compound
-      return 0;
-  }
-  
-}
-
 //Determines based on probability
 //how often compound should be put in context of constituent
 int useConstituentContextForCompound(){
@@ -468,38 +450,36 @@ void *TrainModelThread(void *id) {
       continue;
     }
     word = sen[sentence_position];
-	  
-    //New code changes 
-    int **compounds_for_the_constituent;
+
     int array_length = 0;
     int current_word = (int)word;
-    int compounds_present = findCompoundsForTheConstituent(&current_word,&compounds_for_the_constituent);
-	  
+  
+    int compounds_mapping_index  = constituent_key[current_word];
     //if the word is not a constituent of any compound word
-    if (!compounds_present){
-	 array_length = 1;
+    if (compounds_mapping_index == -1 || !useConstituentContextForCompound() ){
+	      array_length = 1;
     }else{
-	 array_length = max_number_of_compounds;
+	      array_length = max_number_of_compounds;
     }
-	  
+
     //Iterate through all the compounds in which constituent is present
     for (int k=0;k<array_length;k++){
-	            if (array_length == 1){
-		    	word = current_word;
+	      if (array_length == 1){
+		    	      word = current_word;
 		    }else{
-    		        word = compounds_for_the_constituent[0][k];
+    		        word = constituent_compound_mapping[compounds_mapping_index][k];
 		    }
-                    if (word == COMPOUND_NOT_PRESENT){
+
+        if (word == COMPOUND_NOT_PRESENT){
 			    break;
 		    }
-		    if (word == -1) continue;
-	            //Probability of placing compound in constituents context
-	            if (!useConstituentContextForCompound()) continue;
+
+		    if (word == -1 || word > vocab_size ) continue;
 	    
 		    for (c = 0; c < layer1_size; c++) neu1[c] = 0;
 		    for (c = 0; c < layer1_size; c++) neu1e[c] = 0;
 	    
-	            if (k == 0){
+	      if (k == 0){
 		    	next_random = next_random * (unsigned long long)25214903917 + 11;
 		    	b = next_random % window;
 		    }
@@ -638,14 +618,6 @@ void *TrainModelThread(void *id) {
   pthread_exit(NULL);
 }
 
-//First number in the array is constituent
-//perform comparison based on the constituent
-int compareTwoArrays( const void *pa, const void *pb ) {
-    const int *a = *(const int **)pa;
-    const int *b = *(const int **)pb;
-
-    return a[0] - b[0];
-}
 
 void LoadConstituentCompoundMappingFromFile(char *mappingFile){
   char word[MAX_STRING], eof = 0;
@@ -680,7 +652,11 @@ void LoadConstituentCompoundMappingFromFile(char *mappingFile){
   constituent_compound_mapping = (int **)malloc(number_of_constituents * sizeof(int *)); 
   for (int k=0; k<number_of_constituents; k++) 
          constituent_compound_mapping[k] = (int *)malloc(max_number_of_compounds * sizeof(int));
- 
+	
+  constituent_key = (int *)malloc(vocab_size * sizeof(int));
+  for (int m = 0;m < vocab_size;m++){
+      constituent_key[m] = -1;
+  }
   //Store the indices of the constituents and compounds mapping
   fin = fopen(mappingFile, "rb");
   eof = 0;
@@ -693,25 +669,28 @@ void LoadConstituentCompoundMappingFromFile(char *mappingFile){
      for(int j=0;j<max_number_of_compounds;j++){
      
         if (line_ended!=1){
-		            wordIndex = ReadWordIndex(fin, &eof);
-                //New line has index 0
-       	        if (wordIndex == 0){
-                      line_ended = 1;
-                }else{
-                      constituent_compound_mapping[i][j] = wordIndex;
-                }
+                  wordIndex = ReadWordIndex(fin, &eof);
+                  //store the index of the constituent in the mapping 2d array
+                  if (j == 0 && i < vocab_size ){
+                    constituent_key[wordIndex] = i;
+                  }
+                    //New line has index 0
+                    if (wordIndex == 0){
+                          line_ended = 1;
+                    }else{
+                          constituent_compound_mapping[i][j] = wordIndex;
+                    }
 
-        }else{
-               constituent_compound_mapping[i][j] = COMPOUND_NOT_PRESENT;
-        }
+            }else{
+                  constituent_compound_mapping[i][j] = COMPOUND_NOT_PRESENT;
+            }
      
      }
   }
   fclose(fin);
  
-  //Sort the constituent_compound_mapping 2d array
-  qsort(constituent_compound_mapping,number_of_constituents,sizeof(constituent_compound_mapping[0]),compareTwoArrays);
-  printf("Constituent Compound Mapping Loaded and Sorted \n");
+ printf("Constituent Compound Mapping Loaded\n");
+  
 }
 
 
@@ -727,6 +706,7 @@ void TrainModel() {
   
   //Create mapping of constituent and compound to be used in training later
   LoadConstituentCompoundMappingFromFile(constituent_compound_mapping_file);
+    
   InitNet();
   if (negative > 0) InitUnigramTable();
   start = clock();
