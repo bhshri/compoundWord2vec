@@ -453,8 +453,12 @@ void *TrainModelThread(void *id) {
 
     int array_length = 0;
     int current_word = (int)word;
-  
-    int compounds_mapping_index  = constituent_key[current_word];
+	  
+    int compounds_mapping_index  = -1;
+    if (word!=-1 || word < vocab_size ){
+      compounds_mapping_index =  constituent_key[current_word];
+    }
+
     //if the word is not a constituent of any compound word
     if (compounds_mapping_index == -1 || !useConstituentContextForCompound() ){
 	      array_length = 1;
@@ -465,12 +469,12 @@ void *TrainModelThread(void *id) {
     //Iterate through all the compounds in which constituent is present
     for (int k=0;k<array_length;k++){
 	      if (array_length == 1){
-		    	      word = current_word;
+		    	word = current_word;
 		    }else{
     		        word = constituent_compound_mapping[compounds_mapping_index][k];
 		    }
 
-        if (word == COMPOUND_NOT_PRESENT){
+              if (word == COMPOUND_NOT_PRESENT){
 			    break;
 		    }
 
