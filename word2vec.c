@@ -677,6 +677,7 @@ void LoadConstituentCompoundMappingFromFile(char *mappingFile){
                     //New line has index 0
                     if (wordIndex == 0){
                           line_ended = 1;
+			  constituent_compound_mapping[i][j] = wordIndex;
                     }else{
                           constituent_compound_mapping[i][j] = wordIndex;
                     }
