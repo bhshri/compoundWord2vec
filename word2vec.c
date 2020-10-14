@@ -853,7 +853,7 @@ int main(int argc, char **argv) {
   if ((i = ArgPos((char *)"-sample", argc, argv)) > 0) sample = atof(argv[i + 1]);
   if ((i = ArgPos((char *)"-hs", argc, argv)) > 0) hs = atoi(argv[i + 1]);
   if ((i = ArgPos((char *)"-negative", argc, argv)) > 0) negative = atoi(argv[i + 1]);
-  if ((i = ArgPos((char *)"-constituent_compound_replace_prob", argc, argv)) > 0) constituent_compound_replace_prob = atoi(argv[i + 1]);
+  if ((i = ArgPos((char *)"-constituent_compound_replace_prob", argc, argv)) > 0) constituent_compound_replace_prob = atof(argv[i + 1]);
   if ((i = ArgPos((char *)"-threads", argc, argv)) > 0) num_threads = atoi(argv[i + 1]);
   if ((i = ArgPos((char *)"-iter", argc, argv)) > 0) iter = atoi(argv[i + 1]);
   if ((i = ArgPos((char *)"-min-count", argc, argv)) > 0) min_count = atoi(argv[i + 1]);
