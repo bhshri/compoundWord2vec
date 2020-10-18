@@ -58,6 +58,8 @@ int number_of_constituents = 0;
 int max_number_of_compounds = -1;
 int COMPOUND_NOT_PRESENT = -100;
 double constituent_compound_replace_prob = 0.5;
+long long max_compound_freq = 0;
+long long max_constituent_freq = 0;
 
 void InitUnigramTable() {
   int a, i;
@@ -458,32 +460,13 @@ void *TrainModelThread(void *id) {
     if (word!=-1 || word < vocab_size ){
       compounds_mapping_index =  constituent_key[current_word];
     }
-    long long max_compound_freq = 0;
-    long long sum_inverse_freq = 0;
+
+    double constituent_sampling_probability = ( random() % 10000 ) / 10000.0;
     //if the word is not a constituent of any compound word
-    if (compounds_mapping_index == -1 || !useConstituentContextForCompound() ){
+    if (compounds_mapping_index == -1 || constituent_sampling_probability > (double)vocab[word]/max_constituent_freq ){
 	      array_length = 1;
     }else{
 	      array_length = max_number_of_compounds;
-	    
-	      //to sample compound words according to inverse of their frequency
-	      long long count = 0;
-	      for(int m=1;m<array_length;m++){
-		      compound_word_index = constituent_compound_mapping[compounds_mapping_index][m];
-		      if (compound_word_index == COMPOUND_NOT_PRESENT){
-			      break;
-		      }else if (compound_word_index == -1 || compound_word_index > vocab_size){
-			      continue;
-		      }
-		      if (vocab[compound_word_index] > max_compound_freq){
-			      max_compound_freq = vocab[compound_word_index];
-		      }
-		      count++;
-		      sum_inverse_freq+=vocab[compound_word_index];
-	      }
-	      long long epsilon = 1;
-	      max_compound_freq+=epsilon;
-	      sum_inverse_freq = count * max_compound_freq - sum_inverse_freq;
     }
      
     
@@ -503,8 +486,8 @@ void *TrainModelThread(void *id) {
 	            
 	            //choose compound words based on this probability.
 	            if (k > 0){
-    		        double sampling_probability = ( random() % 10000 ) / 10000.0;
-		        if (sampling_probability > (double)vocab[word]/sum_inverse_freq){
+    		        double compound_sampling_probability = ( random() % 10000 ) / 10000.0;
+		        if ( compound_sampling_probability < (double)vocab[word]/max_compound_freq ){
 				continue;
 			}
 		    }
@@ -704,9 +687,16 @@ void LoadConstituentCompoundMappingFromFile(char *mappingFile){
         if (line_ended!=1){
                   wordIndex = ReadWordIndex(fin, &eof);
                   //store the index of the constituent in the mapping 2d array
-                  if (j == 0 && i < vocab_size ){
+                  if (j == 0 && wordIndex < vocab_size ){
                     constituent_key[wordIndex] = i;
+		    if (max_constituent_freq < vocab[wordIndex]){
+			   max_constituent_freq = vocab[wordIndex];
+		    }
                   }
+		  
+		   if (j > 1 && max_compound_freq < vocab[wordIndex]){
+			max_compound_freq = vocab[wordIndex];
+		   }
                     //New line has index 0
                     if (wordIndex == 0){
                           line_ended = 1;
@@ -722,7 +712,8 @@ void LoadConstituentCompoundMappingFromFile(char *mappingFile){
      }
   }
   fclose(fin);
- 
+ printf("Maximum compound frequency: %lld\n",max_compound_freq);
+ printf("Maximum constituent frequency: %lld\n",max_constituent_freq);
  printf("Constituent Compound Mapping Loaded\n");
   
 }
