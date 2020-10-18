@@ -463,7 +463,7 @@ void *TrainModelThread(void *id) {
 
     double constituent_sampling_probability = ( random() % 10000 ) / 10000.0;
     //if the word is not a constituent of any compound word
-    if (compounds_mapping_index == -1 || constituent_sampling_probability > (double)vocab[word]/max_constituent_freq ){
+    if (compounds_mapping_index == -1 || constituent_sampling_probability > (double)vocab[word].cn/max_constituent_freq ){
 	      array_length = 1;
     }else{
 	      array_length = max_number_of_compounds;
@@ -487,7 +487,7 @@ void *TrainModelThread(void *id) {
 	            //choose compound words based on this probability.
 	            if (k > 0){
     		        double compound_sampling_probability = ( random() % 10000 ) / 10000.0;
-		        if ( compound_sampling_probability < (double)vocab[word]/max_compound_freq ){
+		        if ( compound_sampling_probability < (double)vocab[word].cn/max_compound_freq ){
 				continue;
 			}
 		    }
@@ -689,13 +689,13 @@ void LoadConstituentCompoundMappingFromFile(char *mappingFile){
                   //store the index of the constituent in the mapping 2d array
                   if (j == 0 && wordIndex < vocab_size ){
                     constituent_key[wordIndex] = i;
-		    if (max_constituent_freq < vocab[wordIndex]){
-			   max_constituent_freq = vocab[wordIndex];
+		    if (max_constituent_freq < vocab[wordIndex].cn){
+			   max_constituent_freq = vocab[wordIndex].cn;
 		    }
                   }
 		  
-		   if (j > 1 && max_compound_freq < vocab[wordIndex]){
-			max_compound_freq = vocab[wordIndex];
+		   if (j > 1 && max_compound_freq < vocab[wordIndex].cn){
+			max_compound_freq = vocab[wordIndex].cn;
 		   }
                     //New line has index 0
                     if (wordIndex == 0){
