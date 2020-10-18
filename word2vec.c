@@ -458,14 +458,35 @@ void *TrainModelThread(void *id) {
     if (word!=-1 || word < vocab_size ){
       compounds_mapping_index =  constituent_key[current_word];
     }
-
+    long long max_compound_freq = 0;
+    long long sum_inverse_freq = 0;
     //if the word is not a constituent of any compound word
     if (compounds_mapping_index == -1 || !useConstituentContextForCompound() ){
 	      array_length = 1;
     }else{
 	      array_length = max_number_of_compounds;
+	    
+	      //to sample compound words according to inverse of their frequency
+	      long long count = 0;
+	      for(int m=1;m<array_length;m++){
+		      compound_word_index = constituent_compound_mapping[compounds_mapping_index][m];
+		      if (compound_word_index == COMPOUND_NOT_PRESENT){
+			      break;
+		      }else if (compound_word_index == -1 || compound_word_index > vocab_size){
+			      continue;
+		      }
+		      if (vocab[compound_word_index] > max_compound_freq){
+			      max_compound_freq = vocab[compound_word_index];
+		      }
+		      count++;
+		      sum_inverse_freq+=vocab[compound_word_index];
+	      }
+	      long long epsilon = 1;
+	      max_compound_freq+=epsilon;
+	      sum_inverse_freq = count * max_compound_freq - sum_inverse_freq;
     }
-
+     
+    
     //Iterate through all the compounds in which constituent is present
     for (int k=0;k<array_length;k++){
 	      if (array_length == 1){
@@ -474,16 +495,24 @@ void *TrainModelThread(void *id) {
     		        word = constituent_compound_mapping[compounds_mapping_index][k];
 		    }
 
-              if (word == COMPOUND_NOT_PRESENT){
+              	   if (word == COMPOUND_NOT_PRESENT){
 			    break;
 		    }
 
 		    if (word == -1 || word > vocab_size ) continue;
+	            
+	            //choose compound words based on this probability.
+	            if (k > 0){
+    		        double sampling_probability = ( random() % 10000 ) / 10000.0;
+		        if (sampling_probability > (double)vocab[word]/sum_inverse_freq){
+				continue;
+			}
+		    }
 	    
 		    for (c = 0; c < layer1_size; c++) neu1[c] = 0;
 		    for (c = 0; c < layer1_size; c++) neu1e[c] = 0;
 	    
-	      if (k == 0){
+	            if (k == 0){
 		    	next_random = next_random * (unsigned long long)25214903917 + 11;
 		    	b = next_random % window;
 		    }
