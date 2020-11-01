@@ -4,7 +4,6 @@ import os
 # Initialize parser
 parser = argparse.ArgumentParser()
  
-# Adding optional argument
 parser.add_argument("-i", "--input_vocab_file", help = "Vocab file from which constituent compound mapping will be extracted",required=True)
 parser.add_argument("-o","--output_mapping_file",help = "Mapping file for constituent and compounds",required=True)
 # Read arguments from command line
