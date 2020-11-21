@@ -19,3 +19,9 @@ is finished, the user can interactively explore the similarity of the words.
 
 More information about the scripts is provided at https://code.google.com/p/word2vec/
 
+Running Cword2vec training
+--------------------------
+
+step 1: generate constituent compounds mapping file
+
+step 2: provide the 
