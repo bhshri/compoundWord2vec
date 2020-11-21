@@ -1,0 +1,155 @@
+WORD1,WORD2,GROUND_TRUTH_SIMILARITY,COSINE_SIMILARITY,WORD1 IN VOCAB,WORD2 IN VOCAB,WORD1 CONSTITUENTS,WORD1 CONSTITUENTS IN VOCAB,WORD2 CONSTITUENTS,WORD2 CONSTITUENTS IN VOCAB
+Angebotsseite,Bestandsaufnahme,1.714285714,0.21715332567691803,True,True,Angebots  seite,True False, ,
+angehend,Verfahrenstechnik,0.6190476189999999,0.1440822333097458,True,True, ,,Verfahrens  technik,True False
+anschließend,Blutspendeaktion,0.47619047600000003,0.0786142498254776,True,True, ,,Blut  spende  aktion,True False False
+anschließend,Maschinenfunktion,0.571428571,0.0,True,False, ,,Maschinen  funktion,True False
+Arbeitstitel,Abkehr,0.380952381,0.14115206897258759,True,True,Arbeit  titel,True False, ,
+Aufgabe,Vertriebstechniker,2.095238095,0.1360541731119156,True,True, ,,Vertriebs  techniker,True False
+Ausbildung,Gesundheitswesen,1.761904762,0.3154928684234619,True,True, ,,Gesundheit  wesen,True False
+Ausgangsmaterial,Probenehmer,1.428571429,0.2774132490158081,True,True,Ausgangs  material,True False, ,
+Baumaschinenmeister,beruflich,2.904761905,0.0,False,True,Bau  maschinen  meister,True False False, ,
+Bayern,Unterrichtsmittel,0.857142857,0.11027687042951584,True,True, ,,Unterrichts  mittel,True False
+Beurteilung,Verhaltensmuster,2.3809523809999997,0.2541223466396332,True,True, ,,Verhaltens  muster,True False
+Bildungsabschluss,Verhaltensmuster,1.2380952379999999,0.16016902029514313,True,True,Bildung  abschluss,True False,Verhaltens  muster,True False
+Bildungsträger,Berufspraxis,1.952380952,0.3257193863391876,True,True,Bildung  träger,True False,Berufs  praxis,True False
+Core,Metadatenwerkzeug,1.380952381,0.0,True,False, ,,Meta  daten  werkzeug,True False False
+Dienst,Ingenieurbüro,2.142857143,0.21880848705768585,True,True, ,,Ingenieur  büro,True False
+Eigenaktivität,Durchführung,1.857142857,0.32884547114372253,True,True,Eigen  aktivität,True False, ,
+eindimensional,Backware,0.19047619,0.12219124287366867,True,True, ,,Back  ware,True False
+erfolgreich,Universität,2.5714285709999998,0.13439153134822845,True,True,erfolg  reich,True False, ,
+Erkenntnisinteresse,gleichzeitig,0.523809524,0.1350080966949463,True,True,Erkenntnis  interesse,True False, ,
+Erklärung,Aktensperrfrist,1.19047619,0.0,True,False, ,,Akten  sperrfrist,True False
+Fachbereichsvertreter,individuell,0.80952381,0.0,False,True,Fachbereichs  vertreter,True False, ,
+Familie,Modellvorhaben,0.571428571,0.06358367204666138,True,True, ,,Modell  vorhaben,True False
+Feinwerktechnik,Hochschule,1.952380952,0.29240167140960693,True,True,Fein  werk  technik,True False False, ,
+Flächeneinsparung,Landwirtschaft,2.333333333,0.0,False,True,Flächen  einsparung,True False, ,
+Forschungsverbund,Langzeittherapieprogramm,1.619047619,0.0,True,False,Forschung  verbund,True False,Langzeit  therapie  programm,True False False
+Forschungszentrum,Euro,1.285714286,0.0297032929956913,True,True,Forschung  zentrum,True False, ,
+Führungsmittel,Gastlandkontakte,0.380952381,0.0,True,False,Führung  mittel,True False,Gast  land  kontakte,True False False
+Gegenstand,Filmherstellung,1.047619048,0.14963990449905396,True,True, ,,Film  herstellung,True False
+Gentest,Risiko,2.5714285709999998,0.1992282271385193,True,True,Gen  test,True False, ,
+Gespannfahren,Altersgruppe,0.380952381,0.20155349373817444,True,True, ,,Alters  gruppe,True False
+Gesundheitsbegriff,Entwicklungsgeschichte,0.9523809520000001,0.2244267612695694,True,True,Gesundheit  begriff,True False,Entwicklung  geschichte,True False
+Gleitkomma,deaktivieren,0.666666667,0.09117209911346436,True,True,Gleit  komma,True False, ,
+groß,Arbeitszeitregelung,0.23809523800000001,0.04117664322257042,True,True, ,,Arbeit  zeit  regelung,True False False
+Handlungsanleitung,Kooperationspartner,1.142857143,0.1832050383090973,True,True,Handlung  anleitung,True False,Kooperation  partner,True False
+Hubschraubertyp,einschließlich,0.19047619,0.11324117332696915,True,True,Hubschrauber  typ,True False, ,
+konkret,Handlungsempfehlung,2.047619048,0.28576990962028503,True,True, ,,Handlung  empfehlung,True False
+Konstruktionsbüro,elektro,1.285714286,0.13442279398441315,True,True,Konstruktion  büro,True False, ,
+Körpernorm,Lebenszusammenhang,0.904761905,0.0,False,True,Körper  norm,True False,Lebens  zusammenhang,True False
+Krankenhausmanagement,Betriebswirt,2.4761904759999998,0.36404871940612793,True,True,Kranken  haus  management,True False False,Betriebs  wirt,True False
+künstlich,Samenzahnrad,0.761904762,0.0,True,False, ,,Samen  zahn  rad,True False False
+lehren,Verkehrswirtschaft,1.571428571,0.12372943758964539,True,True, ,,Verkehrs  wirtschaft,True False
+Lehrerausbildung,Medium,1.619047619,0.21055881679058075,True,True,Lehrer  ausbildung,True False, ,
+Lehrerrolle,Hilfe,2.666666667,0.1769905686378479,True,True,Lehrer  rolle,True False, ,
+Literaturwissenschaft,allgemein,0.9523809520000001,0.2123645395040512,True,True,Literatur  wissenschaft,True False, ,
+Maschinenbau,Beschreibung,1.19047619,0.12538772821426392,True,True,Maschinen  bau,True False, ,
+Metall,Berufsbezeichnung,1.285714286,0.18339888751506805,True,True, ,,Berufs  bezeichnung,True False
+Migrantinnen,Handelsstruktur,0.761904762,0.22922967374324799,True,True, ,,Handels  struktur,True False
+Personaldisposition,überwachen,1.2380952379999999,0.2338908612728119,True,True,Personal  disposition,True False, ,
+Pflanzenzüchtung,models,0.428571429,0.08856038749217987,True,True,Pflanzen  züchtung,True False, ,
+Politikbereich,altersbezogen,1.2380952379999999,0.0,True,False,Politik  bereich,True False, ,
+Pressebüro,Nanopartikel,0.28571428600000004,0.06680409610271454,True,True,Presse  büro,True False, ,
+Privatkunde,Bereich,0.9523809520000001,0.20389091968536377,True,True,Privat  kunde,True False, ,
+Programmiersystem,Warte,0.6190476189999999,0.14372335374355316,True,True,Programmier  system,True False, ,
+Rahmenbedingung,Hochtechnologie,1.761904762,0.2176758199930191,True,True,Rahmen  bedingung,True False,Hoch  technologie,True False
+Reformmöglichkeit,Bildungspolitik,2.714285714,0.0,False,True,Reform  möglichkeit,True False,Bildung  politik,True False
+Restaurierungsmethode,Bildungsträger,0.6190476189999999,0.0,False,True,Restaurierung  methode,True False,Bildung  träger,True False
+Risikokind,Start,0.80952381,0.0,False,True,Risiko  kind,True False, ,
+Schiff,Segelflugzeug,2.19047619,0.3392680585384369,True,True, ,,Segel  flugzeug,True False
+schließen,Reiseantrag,0.6190476189999999,0.0,True,False, ,,Reise  antrag,True False
+Sicherheit,Frontenbildung,1.095238095,0.23191985487937927,True,True, ,,Fronten  bildung,True False
+Spielidee,Computergraphik,2.80952381,0.2544436454772949,True,True,Spiel  idee,True False,Computer  graphik,True False
+Sport,bargeldlos,0.428571429,0.195928692817688,True,True, ,,bargeld  los,True False
+Tätigkeitsbezeichnung,Personal,2.666666667,0.19493508338928223,True,True,Tätigkeit  bezeichnung,True False, ,
+Tiefbaubauingenieur,heranführen,0.6190476189999999,0.0,False,True,Tiefbau  bau  ingenieur,True False False, ,
+Übersicht,Kursstätte,0.904761905,0.1713937222957611,True,True, ,,Kurs  stätte,True False
+Umwelt,Organisationskompetenz,1.333333333,0.2795667350292206,True,True, ,,Organisation  kompetenz,True False
+Umweltschutz,Gesundheitsschutz,2.857142857,0.6117305755615234,True,True,Umwelt  schutz,True False,Gesundheit  schutz,True False
+Universität,Bildungseinrichtung,3.904761905,0.44682300090789795,True,True, ,,Bildung  einrichtung,True False
+Universitätsklinik,Universität,3.523809524,0.6476209163665771,True,True,Universität  klinik,True False, ,
+Unterrichtsmittel,Versuchsfläche,1.619047619,0.1663813591003418,True,True,Unterrichts  mittel,True False,Versuchs  fläche,True False
+Verwaltung,Betriebswirt,2.857142857,0.24481429159641266,True,True, ,,Betriebs  wirt,True False
+Wahlfächer,Gymnasium,3.238095238,0.3535761535167694,True,True,Wahl  fächer,True False, ,
+wahrnehmen,Grundsatzfrage,0.857142857,0.03597356751561165,True,True, ,,Grundsatz  frage,True False
+wahrnehmen,Trägereinrichtung,0.380952381,0.0,True,False, ,,Träger  einrichtung,True False
+Weiterbildung,Arbeitsbereich,2.5714285709999998,0.3032505512237549,True,True, ,,Arbeit  bereich,True False
+Welthungerhilfe,Form,0.7142857140000001,0.02320045232772827,True,True,Welt  hunger  hilfe,True False False, ,
+Wirtschaftsminister,handeln,2.3809523809999997,0.09178362786769867,True,True,Wirtschaft  minister,True False, ,
+Wörterbuch,Bewertung,0.857142857,0.13690128922462463,True,True,Wörter  buch,True False, ,
+Absage,Stellenanzeige,0.47,0.2027180939912796,True,True, ,,Stellen  anzeige,True False
+Affe,Gepäckkontrolle,0.0325,0.22223995625972748,True,True, ,,Gepäck  kontrolle,True False
+Aufpreis,Grundpreis,0.7825,0.3430385887622833,True,True, ,,Grund  preis,True False
+Bayern,weißblau,0.6875,0.32117629051208496,True,True, ,,weiß  blau,True False
+Benziner,Dieselversion,0.75,0.5841107964515686,True,True, ,,Diesel  version,True False
+Berufstätigkeit,Erfolg,0.5325,0.2978254556655884,True,True,Berufs  tätigkeit,True False, ,
+Botschaft,sichtbar,0.0625,0.24287986755371094,True,True, ,,sicht  bar,True False
+Deutscher,Bundesbürger,0.875,0.3235810101032257,True,True, ,,Bundes  bürger,True False
+Einkommen,Gehaltsunterschied,0.5,0.4411599338054657,True,True, ,,Gehalts  unterschied,True False
+entwickeln,Entwicklungschef,0.6575,0.1752929985523224,True,True, ,,Entwicklung  chef,True False
+Erfolg,erfolgreich,1.0,0.5803719162940979,True,True, ,,erfolg  reich,True False
+erforschen,herausfinden,0.7825,0.5772538781166077,True,True, ,,heraus  finden,True False
+finden,herausfinden,0.75,0.5103663206100464,True,True, ,,heraus  finden,True False
+Flaschenöffner,Küchenwerkzeug,0.9075,0.41765859723091125,True,True,Flaschen  öffner,True False,Küchen  werkzeug,True False
+Frühlingssonne,kitzeln,0.3125,0.2668553292751312,True,True,Frühlings  sonne,True False, ,
+Frust,Leidensgenosse,0.47,0.2521696090698242,True,True, ,,Leidens  genosse,True False
+Gepäckkontrolle,Flughafen,0.7825,0.5011406540870667,True,True,Gepäck  kontrolle,True False, ,
+Gepäcknetz,Staumöglichkeit,0.5625,0.0,True,False,Gepäck  netz,True False,Stau  möglichkeit,True False
+Geschirrdurcheinander,Menschenleben,0.125,0.0,False,True, ,,Menschen  leben,True False
+gründen,Arbeitsgruppe,0.1875,0.2522701025009155,True,True, ,,Arbeit  gruppe,True False
+Grundlagenforschung,verstehen,0.4075,0.16309227049350739,True,True,Grundlagen  forschung,True False, ,
+heimisch,Urwaldhaus,0.25,0.24740606546401978,True,True, ,,Urwald  haus,True False
+herausstreichen,öffentlich,0.125,0.14972028136253357,True,True,heraus  streichen,True False, ,
+Hirnsignal,Neuronenaktivität,0.875,0.0,False,False,Hirn  signal,True False, ,
+Honorarbasis,bezahlen,0.75,0.2589953541755676,True,True,Honorar  basis,True False, ,
+Innenspiegel,Auto,0.7825,0.30554965138435364,True,True,Innen  spiegel,True False, ,
+Internetseite,herunterladen,0.8125,0.3190689980983734,True,True,Internet  seite,True False,herunter  laden,True False
+Kaffeetasse,parallel,0.0,0.12781447172164917,True,True,Kaffee  tasse,True False, ,
+Kaffeetasse,Tasse,0.9375,0.7912296652793884,True,True,Kaffee  tasse,True False, ,
+Karriere,hinaufklettern,0.5,0.1905653476715088,True,True, ,,hinauf  klettern,True False
+Krebserkennung,Röntgenaufnahme,0.5,0.0,False,True,Krebs  erkennung,True False, ,
+Kulturwissenschaft,Grafiker,0.1575,0.22095493972301483,True,True,Kultur  wissenschaft,True False, ,
+Lebensbedürfnis,ansiedeln,0.095,0.12722378969192505,True,True,Lebens  bedürfnis,True False, ,
+Mann,Geschäftspartner,0.375,0.3898516893386841,True,True, ,,Geschäfts  partner,True False
+Minister,Ministerpräsident,0.845,0.7292892932891846,True,True, ,,Minister  präsident,True False
+moderat,extra,0.3125,0.30575183033943176,True,True,mode  rat,True False, ,
+Motor,Hubraum,0.6875,0.4596347212791443,True,True, ,,Hub  raum,True False
+Niedersachsen,Landesverband,0.4075,0.4439045786857605,True,True, ,,Landes  verband,True False
+Pass,Reiseschutzpass,0.6875,0.0,True,False, ,,Reise  schutz  pass,True False False
+Post,Portokosten,0.75,0.2977306544780731,True,True, ,,Porto  kosten,True False
+Prozentzeichen,Symbol,0.845,0.3632954955101013,True,True,Prozent  zeichen,True False, ,
+Punktverlust,Platz,0.2825,0.2917352318763733,True,True,Punkt  verlust,True False, ,
+rot-weiß,weißblau,0.6875,0.43527650833129883,True,True,rot  weiß,True False,weiß  blau,True False
+Sandwich-Konzept,Sicherheit,0.125,0.0,False,True,Sandwich  Konzept,True False, ,
+Schleusung,Betrugshandlung,0.5325,0.0,True,False, ,,Betrugs  handlung,True False
+Schrank,Küchenschrank,0.845,0.7010944485664368,True,True, ,,Küchen  schrank,True False
+Seitenansicht,A-Säule,0.22,0.34289824962615967,True,True,Seiten  ansicht,True False, ,
+Selbstinszenierung,Beziehungsarbeit,0.125,0.39751601219177246,True,True,Selbst  inszenierung,True False,Beziehung  arbeit,True False
+stark,Gehaltsunterschied,0.0325,0.1897428184747696,True,True, ,,Gehalts  unterschied,True False
+Stellenangebot,sehen,0.095,0.16256411373615265,True,True,Stellen  angebot,True False, ,
+Stellenangebot,Wochenzeitung,0.5625,0.1727513074874878,True,True,Stellen  angebot,True False,Wochen  zeitung,True False
+Stellenanzeige,Bewerbungsgespräch,0.5625,0.3307480812072754,True,True,Stellen  anzeige,True False,Bewerbung  gespräch,True False
+Stellenanzeige,rasch,0.125,0.15598812699317932,True,True,Stellen  anzeige,True False, ,
+Stoiber,Ministerpräsident,0.7825,0.48640182614326477,True,True, ,,Minister  präsident,True False
+suchen,Bundesbürger,0.0,0.06600756198167801,True,True, ,,Bundes  bürger,True False
+Suchmaschinenbetreiber,Eleganz,0.0625,0.06533639878034592,True,True,Suchmaschinen  betreiber,True False, ,
+Suchmaschinenbetreiber,Linkstatistik,0.4375,0.0,True,False,Suchmaschinen  betreiber,True False, ,
+Suchstrategie,Optik,0.0625,0.15148533880710602,True,True,Such  strategie,True False, ,
+Suchstrategie,suchen,0.875,0.34654828906059265,True,True,Such  strategie,True False, ,
+Tag,sichtbar,0.1575,0.24007509648799896,True,True, ,,sicht  bar,True False
+Tierpark,Giraffe,0.75,0.44499802589416504,True,True,Tier  park,True False, ,
+Tierpark,Grafik,0.125,0.12370077520608902,True,True,Tier  park,True False, ,
+Traurigkeit,Heimgang,0.2825,0.32257741689682007,True,True, ,,Heim  gang,True False
+Umfrage,Quartalsumfrage,0.72,0.0,True,False, ,,Quartals  umfrage,True False
+umklappen,flachlegen,0.4075,0.44822248816490173,True,True, ,,flach  legen,True False
+Unternehmen,Dieselversion,0.0,0.13324744999408722,True,True, ,,Diesel  version,True False
+Untersuchungsausschuss,aussagen,0.47,0.2640657424926758,True,True,Untersuchung  ausschuss,True False, ,
+Untersuchungsausschuss,umfassen,0.095,0.07679720968008041,True,True,Untersuchung  ausschuss,True False, ,
+vergangen,weißblau,0.0,0.1477343589067459,True,True, ,,weiß  blau,True False
+vorankommen,Grundpreis,0.0625,0.029637882485985756,True,True, ,,Grund  preis,True False
+Wirtschaftsprofessor,Irrtum,0.095,0.11972035467624664,True,True,Wirtschaft  professor,True False, ,
+Wirtschaftsprofessor,Professor,0.9075,0.6919273138046265,True,True,Wirtschaft  professor,True False, ,
+Wirtschaftsuniversität,Abteilung,0.4375,0.24069994688034058,True,True,Wirtschaft  universität,True False, ,
+Wirtschaftsuniversität,historisch,0.1575,0.036803361028432846,True,True,Wirtschaft  universität,True False, ,
+Witz,Gepäckkontrolle,0.0625,0.18981273472309113,True,True, ,,Gepäck  kontrolle,True False
+Zebra,Stellenanzeige,0.0,0.016665171831846237,True,True, ,,Stellen  anzeige,True False
