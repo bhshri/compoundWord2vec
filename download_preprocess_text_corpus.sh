@@ -30,3 +30,4 @@ for i in 2007 2008 2009 2010 2011 2012 2013; do
 done
 
 cat final_german_smt_text.txt >> final_prec_wiki.txt
+mv final_prec_wiki.txt text_corpus.txt
