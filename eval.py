@@ -26,7 +26,7 @@ parser.add_argument("-v", "--vec_file", help = "word vector file in text format"
 # Read arguments from command line
 args = parser.parse_args()
 
-compound_words_dataframe = pd.read_csv('datasets/compound_word_pair_dataframe.csv')
+compound_words_dataframe = pd.read_csv('DATASETS/compound_word_pair_dataframe.csv')
 model = get_vectors_from_txt_file(args.vec_file)
 vocab = model.keys()
 
@@ -57,13 +57,13 @@ for i in range(compound_words_dataframe.shape[0]):
 coef, p = spearmanr(compound_ref_similarity_values, compound_cosine_similarity_values)
 
 print('Spearman correlationn')
-print(coef, p)
+print(coef)
 
 
 tau,p = kendalltau(compound_ref_similarity_values, compound_cosine_similarity_values)
 
 print('Kendall correlation')
-print(tau,p)
+print(tau)
 
 
 RMSE = math.sqrt(mean_squared_error(compound_ref_similarity_values/4, compound_cosine_similarity_values))
