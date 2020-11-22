@@ -33,7 +33,7 @@ GENERATING CONSTITUENT COMPOUND MAPPING FILE
 python generate_constituent_compound_mappping.py -i vocab_words -o mapping_file
 
 vocab_words: File containing the words from which compounds and their constituents will be extracted. File should contain one word per line.
-mapping_file: output file created which will be used for Cword2vec training in next step.
+mapping_file: Output file created which will be used for Cword2vec training in next step.
 
 For training Cword2vec on the larger corpus, we use the mapping file: cword2vec_constituent_compound_mapping.txt
 For training Cword2vec on the smaller corpus, we use the mapping file: german_small_constituent_compound_mapping_500m.txt
