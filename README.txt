@@ -1,27 +1,50 @@
-Tools for computing distributed representtion of words
-------------------------------------------------------
+SOFTWARE 
+---------------------
+gcc (Ubuntu 5.4.0-6ubuntu1~16.04.12) 5.4.0 20160609
+Python 3.7.1
+Java (openjdk 11.0.9.1 2020-11-04)
 
-We provide an implementation of the Continuous Bag-of-Words (CBOW) and the Skip-gram model (SG), as well as several demo scripts.
+PYTHON LIBRARIES
+----------------
+pip install pandas
+pip install scikit-learn
+pip install numpy
+pip install scipy
 
-Given a text corpus, the word2vec tool learns a vector for every word in the vocabulary using the Continuous
-Bag-of-Words or the Skip-Gram neural network architectures. The user should to specify the following:
- - desired vector dimensionality
- - the size of the context window for either the Skip-Gram or the Continuous Bag-of-Words model
- - training algorithm: hierarchical softmax and / or negative sampling
- - threshold for downsampling the frequent words 
- - number of threads to use
- - the format of the output word vector file (text or binary)
+DOWNLOADING AND PREPROCESSING THE TEXT CORPUS
+------------------------------------------------
+./download_preprocess_text_corpus.sh
 
-Usually, the other hyper-parameters such as the learning rate do not need to be tuned for different training sets. 
+Preprocessed text corpus cab be downloaded from following url:
+https://drive.google.com/file/d/1qIROVOOyOQqASTgwQ0cC84nc9ynHhXGy/view?usp=sharing
 
-The script demo-word.sh downloads a small (100MB) text corpus from the web, and trains a small word vector model. After the training
-is finished, the user can interactively explore the similarity of the words.
 
-More information about the scripts is provided at https://code.google.com/p/word2vec/
+GENERATING CONSTITUENT COMPOUND MAPPING FILE
+--------------------------------------------
+python generate_constituent_compound_mappping.py -i vocab_words -o mapping_file
 
-Running Cword2vec training
---------------------------
+vocab_words: file containing the words in German vocabulary from which compounds and their constituents will be extracted. File should contain one word per line.
+mapping_file: output file created which will be used for Cword2vec training in next step
 
-step 1: generate constituent compounds mapping file
 
-step 2: provide the 
+TRAINING Cword2vec
+------------------
+For Cword2vec algorithm we add 2 new arguments to default word2vec:
+(1) constituent compound mapping file generated as per last step
+(2) compound context augmenting probability (also called compound replace probability in the code)
+
+
+./run_cword2vec.sh
+
+
+Cword2vec vectors for which we obtained our best result is available at the following url. The vectors which are in text format have been compressed in tar.gz format:
+https://drive.google.com/file/d/178e8lyVzjxg70-1iHmCm6d6bLYrPwzWe/view?usp=sharing
+
+EVALUATING Cword2vec
+--------------------
+python eval.py -v Cword2vec_vectors.txt
+
+Expected output
+---------------
+
+
