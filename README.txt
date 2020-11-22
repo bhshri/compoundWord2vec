@@ -54,8 +54,14 @@ EVALUATING Cword2vec
 --------------------
 python eval.py -v Cword2vec_vectors.txt
 
-Expected output
----------------
+Expected output for vector file shared on the google drive.
+-----------------------------------------------------------
+Spearman correlation
+0.3033887349462969
+Kendall correlation
+0.20290645238491906
+RMSE
+0.2816375933741194
 
 
 
