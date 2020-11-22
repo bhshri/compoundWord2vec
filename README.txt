@@ -15,23 +15,27 @@ DOWNLOADING AND PREPROCESSING THE TEXT CORPUS
 ------------------------------------------------
 ./download_preprocess_text_corpus.sh
 
-Preprocessed text corpus cab be downloaded from following url:
+Preprocessed text corpus can be downloaded from following url:
 https://drive.google.com/file/d/1qIROVOOyOQqASTgwQ0cC84nc9ynHhXGy/view?usp=sharing
 
+Smaller 500Mb corpus is obtained by applying following command on the above text corpus
+head -c 500000000 text_corpus.txt > small_text_corpus.txt
 
 GENERATING CONSTITUENT COMPOUND MAPPING FILE
 --------------------------------------------
 python generate_constituent_compound_mappping.py -i vocab_words -o mapping_file
 
 vocab_words: file containing the words in German vocabulary from which compounds and their constituents will be extracted. File should contain one word per line.
-mapping_file: output file created which will be used for Cword2vec training in next step
+mapping_file: output file created which will be used for Cword2vec training in next step.
+
+For training Cword2vec, we use the mapping file: cword2vec_constituent_compound_mapping.txt
 
 
 TRAINING Cword2vec
 ------------------
 For Cword2vec algorithm we add 2 new arguments to default word2vec:
 (1) constituent compound mapping file generated as per last step
-(2) compound context augmenting probability (also called compound replace probability in the code)
+(2) compound context augmenting probability (also called constituent_compound_replace_prob  in the word2vec.c)
 
 
 ./run_cword2vec.sh
@@ -46,5 +50,6 @@ python eval.py -v Cword2vec_vectors.txt
 
 Expected output
 ---------------
+
 
 
