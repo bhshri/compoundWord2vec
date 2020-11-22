@@ -47,12 +47,20 @@ For Cword2vec algorithm we add 2 new arguments to default word2vec:
 Vectors can be trained by running following script.
 ./run_cword2vec.sh
 
+Some important arguments that can be changed in the above script are
+-train:  specify the training corpus file, can be either the large corpus or small corpus file location(text_corpus.txt or small_text_corpus.txt)
+
+-constituent_compound_file: mapping file of constituent and compounds (cword2vec_constituent_compound_mapping.txt or german_small_constituent_compound_mapping_500m.txt)
+
+-constituent_compound_replace_prob: compound context augmenting probability λ which can take values [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0]
+
+For the best results, constituent_compound_replace_prob was set 1.0 for larger corpus and 0.8 for the smaller corpus.
+EVALUATING Cword2vec
+--------------------
 Cword2vec vectors for which we obtained our best result(both for small and large corpus) is available at the following url. 
 The vectors which are in text format have been compressed in tar.gz format:
 https://drive.google.com/file/d/1OjkENisdKygRMNe2C2f_GWKlxW0PsfZK/view?usp=sharing
 
-EVALUATING Cword2vec
---------------------
 Expected output for the vector file(Cword2vec_large.txt) trained on larger corpus shared on the google drive.
 ------------------------------------------------------------------------------------------------------------
 python eval.py -v Cword2vec_large.txt -s large
