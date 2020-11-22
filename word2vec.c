@@ -468,14 +468,14 @@ void *TrainModelThread(void *id) {
 
     //Iterate through all the compounds in which constituent is present
     for (int k=0;k<array_length;k++){
-	      if (array_length == 1){
-		    	word = current_word;
-		    }else{
-    		        word = constituent_compound_mapping[compounds_mapping_index][k];
-		    }
+		    if(array_length == 1){
+				word = current_word;
+	            }else{
+				word = constituent_compound_mapping[compounds_mapping_index][k];
+	            }
 
-              if (word == COMPOUND_NOT_PRESENT){
-			    break;
+		    if (word == COMPOUND_NOT_PRESENT){
+				    break;
 		    }
 
 		    if (word == -1 || word > vocab_size ) continue;
@@ -548,7 +548,7 @@ void *TrainModelThread(void *id) {
 			  for (c = 0; c < layer1_size; c++) syn0[c + last_word * layer1_size] += neu1e[c];
 			}
 		      }
-		      // Make changes in the skipgram for the compound words
+		     
 		    } else {  //train skip-gram
 		      for (a = b; a < window * 2 + 1 - b; a++) if (a != window) {
 			c = sentence_position - window + a;
@@ -576,15 +576,12 @@ void *TrainModelThread(void *id) {
 			}
 
 			// NEGATIVE SAMPLING
-			// changes to be made only for negative sampling section
 			if (negative > 0) for (d = 0; d < negative + 1; d++) {
 			  //correct context word so label = 1
 			  if (d == 0) {
 			    target = word;
 			    label = 1;
 			  } else {
-			    // Randomly choosing some words for negative sampling
-			    // Hence label = 0 meaning they are not co occurring
 			    next_random = next_random * (unsigned long long)25214903917 + 11;
 			    target = table[(next_random >> 16) % table_size];
 			    if (target == 0) target = next_random % (vocab_size - 1) + 1;
@@ -593,11 +590,8 @@ void *TrainModelThread(void *id) {
 			  }
 			  l2 = target * layer1_size;
 			  f = 0;
-			  //what is the multiplication about ??
 			  for (c = 0; c < layer1_size; c++) f += syn0[c + l1] * syn1neg[c + l2];
 
-			  // what is MAX_EXP ???? some kind of threshold ????
-			  // seems like weight update happenning here
 			  if (f > MAX_EXP) g = (label - 1) * alpha;
 			  else if (f < -MAX_EXP) g = (label - 0) * alpha;
 			  else g = (label - expTable[(int)((f + MAX_EXP) * (EXP_TABLE_SIZE / MAX_EXP / 2))]) * alpha;
@@ -627,6 +621,10 @@ void LoadConstituentCompoundMappingFromFile(char *mappingFile){
   char word[MAX_STRING], eof = 0;
   FILE *fin;
   fin = fopen(mappingFile, "rb");
+  if (fin == NULL) {
+    printf("ERROR: constituent compound mapping file not found!\n");
+    exit(1);
+  }
   int number_of_compounds = 0;
   
   while (1){
