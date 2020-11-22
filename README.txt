@@ -42,7 +42,7 @@ TRAINING Cword2vec
 ------------------
 For Cword2vec algorithm we add 2 new arguments to default word2vec:
 (1) constituent compound mapping file generated as per last step (arg name is constituent_compound_file in word2vec.c )
-(2) compound context augmenting probability (arg name is constituent_compound_replace_prob in word2vec.c)
+(2) compound context augmenting probability λ (arg name is constituent_compound_replace_prob in word2vec.c)
 
 Vectors can be trained by running following script.
 ./run_cword2vec.sh
