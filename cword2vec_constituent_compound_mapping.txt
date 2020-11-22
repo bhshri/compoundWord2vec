@@ -1,0 +1,232 @@
+modell modellvorhaben
+vorhaben modellvorhaben
+verfahrens verfahrenstechnik
+technik verfahrenstechnik feinwerktechnik
+arbeit arbeitsgruppe beziehungsarbeit arbeitsbereich arbeitszeitregelung arbeitstitel
+gruppe arbeitsgruppe altersgruppe
+beziehung beziehungsarbeit
+selbst selbstinszenierung
+inszenierung selbstinszenierung
+bereich arbeitsbereich politikbereich
+landes landesverband
+verband landesverband
+innen innenspiegel
+spiegel innenspiegel
+sandwich sandwich-konzept
+konzept sandwich-konzept
+reform reformmöglichkeit
+möglichkeit reformmöglichkeit staumöglichkeit
+gen gentest
+test gentest
+bildung bildungspolitik bildungsabschluss bildungseinrichtung bildungsträger frontenbildung
+politik bildungspolitik politikbereich
+ausgangs ausgangsmaterial
+material ausgangsmaterial
+kaffee kaffeetasse
+tasse kaffeetasse
+zeit arbeitszeitregelung
+regelung arbeitszeitregelung
+heraus herausfinden herausstreichen
+finden herausfinden
+versuchs versuchsfläche
+fläche versuchsfläche
+tier tierpark
+park tierpark
+verkehrs verkehrswirtschaft
+wirtschaft verkehrswirtschaft wirtschaftsuniversität wirtschaftsminister wirtschaftsprofessor
+gesundheit gesundheitswesen gesundheitsbegriff gesundheitsschutz
+wesen gesundheitswesen
+entwicklung entwicklungschef entwicklungsgeschichte
+chef entwicklungschef
+lebens lebensbedürfnis lebenszusammenhang
+bedürfnis lebensbedürfnis
+herunter herunterladen
+laden herunterladen
+betriebs betriebswirt
+wirt betriebswirt
+rahmen rahmenbedingung
+bedingung rahmenbedingung
+wahl wahlfächer
+fächer wahlfächer
+stellen stellenanzeige stellenangebot
+anzeige stellenanzeige
+erfolg erfolgreich
+reich erfolgreich
+geschäfts geschäftspartner
+partner geschäftspartner kooperationspartner
+streichen herausstreichen
+weiß weißblau rot-weiß
+blau weißblau
+konstruktion konstruktionsbüro
+büro konstruktionsbüro ingenieurbüro pressebüro
+abschluss bildungsabschluss
+computer computergraphik
+graphik computergraphik
+bundes bundesbürger
+bürger bundesbürger
+gehalts gehaltsunterschied
+unterschied gehaltsunterschied
+seiten seitenansicht
+ansicht seitenansicht
+umwelt umweltschutz
+schutz umweltschutz gesundheitsschutz
+privat privatkunde
+kunde privatkunde
+begriff gesundheitsbegriff
+welt welthungerhilfe
+hunger welthungerhilfe
+hilfe welthungerhilfe
+gepäck gepäcknetz gepäckkontrolle
+netz gepäcknetz
+geschichte entwicklungsgeschichte
+reise reiseantrag
+antrag reiseantrag
+diesel dieselversion
+version dieselversion
+urwald urwaldhaus
+haus urwaldhaus krankenhausmanagement
+fein feinwerktechnik
+werk feinwerktechnik
+bargeld bargeldlos
+los bargeldlos
+alters altersgruppe
+leidens leidensgenosse
+genosse leidensgenosse
+kontrolle gepäckkontrolle
+forschung forschungsverbund grundlagenforschung forschungszentrum
+verbund forschungsverbund
+bau maschinenbau
+maschinen maschinenbau
+werkzeug küchenwerkzeug
+quartals quartalsumfrage
+umfrage quartalsumfrage
+pflanzen pflanzenzüchtung
+züchtung pflanzenzüchtung
+organisation organisationskompetenz
+kompetenz organisationskompetenz
+hubschrauber hubschraubertyp
+typ hubschraubertyp
+flaschen flaschenöffner
+küchen küchenschrank küchenwerkzeug
+schrank küchenschrank
+heim heimgang
+gang heimgang
+langzeit langzeittherapieprogramm
+therapie langzeittherapieprogramm
+programm langzeittherapieprogramm
+minister ministerpräsident wirtschaftsminister
+präsident ministerpräsident
+handlung handlungsanleitung handlungsempfehlung betrugshandlung
+anleitung handlungsanleitung
+tätigkeit tätigkeitsbezeichnung berufstätigkeit
+bezeichnung tätigkeitsbezeichnung berufsbezeichnung
+back backware
+ware backware
+mode moderat
+rat moderat
+grundlagen grundlagenforschung
+untersuchung untersuchungsausschuss
+ausschuss untersuchungsausschuss
+körper körpernorm
+norm körpernorm
+hoch hochtechnologie
+technologie hochtechnologie
+segel segelflugzeug
+flugzeug segelflugzeug
+ingenieur ingenieurbüro
+flächen flächeneinsparung
+einsparung flächeneinsparung
+zusammenhang lebenszusammenhang
+angebots angebotsseite
+seite angebotsseite internetseite
+prozent prozentzeichen
+zeichen prozentzeichen
+grund grundpreis
+preis grundpreis
+eigen eigenaktivität
+aktivität eigenaktivität
+wochen wochenzeitung
+zeitung wochenzeitung
+hub hubraum
+raum hubraum
+einrichtung bildungseinrichtung trägereinrichtung
+suchmaschinen suchmaschinenbetreiber
+betreiber suchmaschinenbetreiber
+menschen menschenleben
+leben menschenleben
+titel arbeitstitel
+punkt punktverlust
+verlust punktverlust
+empfehlung handlungsempfehlung
+kurs kursstätte
+stätte kursstätte
+presse pressebüro
+programmier programmiersystem
+system programmiersystem
+führung führungsmittel
+mittel führungsmittel unterrichtsmittel
+berufs berufsbezeichnung berufspraxis berufstätigkeit
+handels handelsstruktur
+struktur handelsstruktur
+zentrum forschungszentrum
+bewerbung bewerbungsgespräch
+gespräch bewerbungsgespräch
+träger bildungsträger trägereinrichtung
+lehrer lehrerausbildung lehrerrolle
+ausbildung lehrerausbildung
+universität wirtschaftsuniversität universitätsklinik
+film filmherstellung
+herstellung filmherstellung
+personal personaldisposition
+disposition personaldisposition
+angebot stellenangebot
+stau staumöglichkeit
+rot rot-weiß
+frühlings frühlingssonne
+sonne frühlingssonne
+unterrichts unterrichtsmittel
+hinauf hinaufklettern
+klettern hinaufklettern
+praxis berufspraxis
+flach flachlegen
+legen flachlegen
+klinik universitätsklinik
+erkenntnis erkenntnisinteresse
+interesse erkenntnisinteresse
+spiel spielidee
+idee spielidee
+fronten frontenbildung
+kranken krankenhausmanagement
+management krankenhausmanagement
+sicht sichtbar
+bar sichtbar
+literatur literaturwissenschaft
+wissenschaft literaturwissenschaft kulturwissenschaft
+wörter wörterbuch
+buch wörterbuch
+betrugs betrugshandlung
+gast gastlandkontakte
+land gastlandkontakte
+kontakte gastlandkontakte
+krebs krebserkennung
+erkennung krebserkennung
+such suchstrategie
+strategie suchstrategie
+professor wirtschaftsprofessor
+kultur kulturwissenschaft
+rolle lehrerrolle
+kooperation kooperationspartner
+honorar honorarbasis
+basis honorarbasis
+grundsatz grundsatzfrage
+frage grundsatzfrage
+verhaltens verhaltensmuster
+muster verhaltensmuster
+risiko risikokind
+kind risikokind
+blut blutspendeaktion
+spende blutspendeaktion
+aktion blutspendeaktion
+porto portokosten
+kosten portokosten
+internet internetseite
