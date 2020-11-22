@@ -32,18 +32,19 @@ GENERATING CONSTITUENT COMPOUND MAPPING FILE
 --------------------------------------------
 python generate_constituent_compound_mappping.py -i vocab_words -o mapping_file
 
-vocab_words: file containing the words in German vocabulary from which compounds and their constituents will be extracted. File should contain one word per line.
+vocab_words: File containing the words from which compounds and their constituents will be extracted. File should contain one word per line.
 mapping_file: output file created which will be used for Cword2vec training in next step.
 
-For training Cword2vec, we use the mapping file: cword2vec_constituent_compound_mapping.txt
+For training Cword2vec on the larger corpus, we use the mapping file: cword2vec_constituent_compound_mapping.txt
+For traing Cword2vec on the smaller corpus, we use the mapping file: german_small_constituent_compound_mapping_500m.txt
 
 TRAINING Cword2vec
 ------------------
 For Cword2vec algorithm we add 2 new arguments to default word2vec:
-(1) constituent compound mapping file generated as per last step
-(2) compound context augmenting probability (also called constituent_compound_replace_prob  in the word2vec.c)
+(1) constituent compound mapping file generated as per last step (arg name is constituent_compound_file in word2vec.c )
+(2) compound context augmenting probability (arg name is constituent_compound_replace_prob in word2vec.c)
 
-Vectors can be trained by running following command.
+Vectors can be trained by running following script.
 ./run_cword2vec.sh
 
 Cword2vec vectors for which we obtained our best result is available at the following url. The vectors which are in text format have been compressed in tar.gz format:
