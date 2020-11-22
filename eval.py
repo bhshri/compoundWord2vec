@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
@@ -56,7 +55,7 @@ for i in range(compound_words_dataframe.shape[0]):
 
 coef, p = spearmanr(compound_ref_similarity_values, compound_cosine_similarity_values)
 
-print('Spearman correlationn')
+print('Spearman correlation')
 print(coef)
 
 
