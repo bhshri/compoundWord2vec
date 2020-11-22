@@ -4,6 +4,13 @@ gcc (Ubuntu 5.4.0-6ubuntu1~16.04.12) 5.4.0 20160609
 Python 3.7.1
 Java (openjdk 11.0.9.1 2020-11-04)
 
+SYSTEM CONFIGURATION
+--------------------
+Architecture:          x86_64
+CPU(s):                8
+Model name:            Intel(R) Core(TM) i7-3820 CPU @ 3.60GHz
+RAM:                   32GB
+
 PYTHON LIBRARIES
 ----------------
 pip install pandas
@@ -30,16 +37,14 @@ mapping_file: output file created which will be used for Cword2vec training in n
 
 For training Cword2vec, we use the mapping file: cword2vec_constituent_compound_mapping.txt
 
-
 TRAINING Cword2vec
 ------------------
 For Cword2vec algorithm we add 2 new arguments to default word2vec:
 (1) constituent compound mapping file generated as per last step
 (2) compound context augmenting probability (also called constituent_compound_replace_prob  in the word2vec.c)
 
-
+Vectors can be trained by running following command.
 ./run_cword2vec.sh
-
 
 Cword2vec vectors for which we obtained our best result is available at the following url. The vectors which are in text format have been compressed in tar.gz format:
 https://drive.google.com/file/d/178e8lyVzjxg70-1iHmCm6d6bLYrPwzWe/view?usp=sharing
