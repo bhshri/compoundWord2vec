@@ -28,7 +28,7 @@ with open('splitted_words','r') as file:
 for i in range(len(vocab_words)):
       if ',' in splitted_words[i]:
           constituents = [ word.strip() for word in splitted_words[i].split(',') ]
-           for constituent in constituents:
+          for constituent in constituents:
                compounds = constituent_compound_mapping_dict.get(constituent)
                if compounds == None:
                   constituent_compound_mapping_dict[constituent] = [vocab_words[i].strip()]
