@@ -47,15 +47,16 @@ For Cword2vec algorithm we add 2 new arguments to default word2vec:
 Vectors can be trained by running following script.
 ./run_cword2vec.sh
 
-Cword2vec vectors for which we obtained our best result is available at the following url. The vectors which are in text format have been compressed in tar.gz format:
-https://drive.google.com/file/d/178e8lyVzjxg70-1iHmCm6d6bLYrPwzWe/view?usp=sharing
+Cword2vec vectors for which we obtained our best result(both for small and large corpus) is available at the following url. 
+The vectors which are in text format have been compressed in tar.gz format:
+https://drive.google.com/file/d/1OjkENisdKygRMNe2C2f_GWKlxW0PsfZK/view?usp=sharing
 
 EVALUATING Cword2vec
 --------------------
-python eval.py -v Cword2vec_vectors.txt
+Expected output for the vector file(Cword2vec_large.txt) trained on larger corpus shared on the google drive.
+------------------------------------------------------------------------------------------------------------
+python eval.py -v Cword2vec_large.txt -s large
 
-Expected output for vector file shared on the google drive.
------------------------------------------------------------
 Spearman correlation
 0.3033887349462969
 Kendall correlation
@@ -63,5 +64,15 @@ Kendall correlation
 RMSE
 0.2816375933741194
 
+Expected output for the vector file(Cword2vec_small.txt) trained on smaller corpus shared on the google drive.
+-------------------------------------------------------------------------------------------------------------
+python eval.py -v Cword2vec_small.txt -s small
 
+Spearman correlation
+0.3518891375583033
+Kendall correlation
+0.2553930675525646
+RMSE
+0.2623627861379514
 
+**Note: Both the results above are the best results obtained on the large and small corpus.
