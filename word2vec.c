@@ -345,7 +345,7 @@ void ReadVocab() {
   SortVocab();
   if (debug_mode > 0) {
     printf("Vocab size: %lld\n", vocab_size);
-    printf("Words in train file: %lld\n", train_words);
+    //printf("Words in train file: %lld\n", train_words);
   }
   fin = fopen(train_file, "rb");
   if (fin == NULL) {
@@ -458,20 +458,20 @@ void *TrainModelThread(void *id) {
     if (word!=-1 || word < vocab_size ){
       compounds_mapping_index =  constituent_key[current_word];
     }
-
+    //printf("Done 1\n");
     //if the word is not a constituent of any compound word
     if (compounds_mapping_index == -1 || !useConstituentContextForCompound() ){
 	      array_length = 1;
     }else{
 	      array_length = max_number_of_compounds;
     }
-
+    //printf("Done 2\n");
     //Iterate through all the compounds in which constituent is present
     for (int k=0;k<array_length;k++){
-		    if(array_length == 1){
-				word = current_word;
+		          if(array_length == 1){
+				        word = current_word;
 	            }else{
-				word = constituent_compound_mapping[compounds_mapping_index][k];
+				        word = constituent_compound_mapping[compounds_mapping_index][k];
 	            }
 
 		    if (word == COMPOUND_NOT_PRESENT){
@@ -479,7 +479,7 @@ void *TrainModelThread(void *id) {
 		    }
 
 		    if (word == -1 || word > vocab_size ) continue;
-	    
+	      //printf("Done 3\n");
 		    for (c = 0; c < layer1_size; c++) neu1[c] = 0;
 		    for (c = 0; c < layer1_size; c++) neu1e[c] = 0;
 	    
@@ -626,9 +626,21 @@ void LoadConstituentCompoundMappingFromFile(char *mappingFile){
     exit(1);
   }
   int number_of_compounds = 0;
-  
+  int constituent_flag = 1;
   while (1){
         ReadWord(word, fin, &eof);
+
+        if (constituent_flag == 1) {
+            constituent_flag = 0;
+        } else if (constituent_flag == 0){
+        //Check if the compound word is in the vocab 
+        //If not add the word to vocab
+            int compound_present = SearchVocab(word);
+            if (compound_present == -1){
+                int compoundWordIndex = AddWordToVocab(word);
+                vocab[compoundWordIndex].cn = min_count;
+            }
+        }
         if (eof){
            if (number_of_compounds > max_number_of_compounds){
                         max_number_of_compounds = number_of_compounds;
@@ -639,6 +651,7 @@ void LoadConstituentCompoundMappingFromFile(char *mappingFile){
         //newline spotted
         if (!strcmp(word, (char *)"</s>")){
                 number_of_constituents++;
+                constituent_flag = 1;
                 if (number_of_compounds > max_number_of_compounds){
                         max_number_of_compounds = number_of_compounds;
                 }
@@ -646,7 +659,8 @@ void LoadConstituentCompoundMappingFromFile(char *mappingFile){
         }
   }
   fclose(fin);
-    
+  //Since new compound words are added in the vocab
+  SortVocab();
   printf("Total number of constituents: %d \n", number_of_constituents);
   printf("Maximum number of compounds per constituent: %d \n", max_number_of_compounds);
   
@@ -673,13 +687,13 @@ void LoadConstituentCompoundMappingFromFile(char *mappingFile){
         if (line_ended!=1){
                   wordIndex = ReadWordIndex(fin, &eof);
                   //store the index of the constituent in the mapping 2d array
-                  if (j == 0 && i < vocab_size ){
+                  if (j == 0 && i < vocab_size && wordIndex > 0 ){
                     constituent_key[wordIndex] = i;
                   }
                     //New line has index 0
                     if (wordIndex == 0){
                           line_ended = 1;
-			  constituent_compound_mapping[i][j] = wordIndex;
+			                    constituent_compound_mapping[i][j] = wordIndex;
                     }else{
                           constituent_compound_mapping[i][j] = wordIndex;
                     }
@@ -692,7 +706,7 @@ void LoadConstituentCompoundMappingFromFile(char *mappingFile){
   }
   fclose(fin);
  
- printf("Constituent Compound Mapping Loaded\n");
+ printf("Constituent Compound Mapping Loading Completed\n");
   
 }
 
@@ -709,8 +723,9 @@ void TrainModel() {
   
   //Create mapping of constituent and compound to be used in training later
   LoadConstituentCompoundMappingFromFile(constituent_compound_mapping_file);
-    
+
   InitNet();
+
   if (negative > 0) InitUnigramTable();
   start = clock();
   for (a = 0; a < num_threads; a++) pthread_create(&pt[a], NULL, TrainModelThread, (void *)a);
