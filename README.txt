@@ -55,11 +55,9 @@ Some important arguments that can be changed in the above script are
 -constituent_compound_replace_prob: compound context augmenting probability λ which can take values [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0]
 
 For the best results, constituent_compound_replace_prob was set 1.0 for larger corpus and 0.8 for the smaller corpus.
+
 EVALUATING Cword2vec
 --------------------
-Cword2vec vectors for which we obtained our best result(both for small and large corpus) is available at the following url. 
-The vectors which are in text format have been compressed in tar.gz format:
-https://drive.google.com/file/d/1OjkENisdKygRMNe2C2f_GWKlxW0PsfZK/view?usp=sharing
 
 Expected output for the vector file(Cword2vec_large.txt) trained on larger corpus shared on the google drive.
 ------------------------------------------------------------------------------------------------------------
@@ -72,15 +70,4 @@ Kendall correlation
 RMSE
 0.2747978498074467
 
-Expected output for the vector file(Cword2vec_small.txt) trained on smaller corpus shared on the google drive.
--------------------------------------------------------------------------------------------------------------
-python eval.py -v Cword2vec_small.txt -s small
 
-Spearman correlation
-0.3518891375583033
-Kendall correlation
-0.2553930675525646
-RMSE
-0.2623627861379514
-
-**Note: Both the results above are the best results obtained on the large and small corpus.
