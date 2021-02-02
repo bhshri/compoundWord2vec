@@ -66,11 +66,11 @@ Expected output for the vector file(Cword2vec_large.txt) trained on larger corpu
 python eval.py -v Cword2vec_large.txt -s large
 
 Spearman correlation
-0.3033887349462969
+0.3766766916977916
 Kendall correlation
-0.20290645238491906
+0.25242748474078786
 RMSE
-0.2816375933741194
+0.2747978498074467
 
 Expected output for the vector file(Cword2vec_small.txt) trained on smaller corpus shared on the google drive.
 -------------------------------------------------------------------------------------------------------------
